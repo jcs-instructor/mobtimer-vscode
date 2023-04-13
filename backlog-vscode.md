@@ -15,9 +15,7 @@ Goal: Use mrozzbarry with minimal edits
 
 - [x] Show some text in statusbar
 - [ ] See if can run Hello World when extension loads instead of having to run it as a task
-- [ ] CONTRIBUTING.md 
-    `yarn start watch`        
-    Run > Debug                
+- [ ] WIP: CONTRIBUTING.md - Review [here](./CONTRIBUTING.md)
 - [ ] Join (ok to hardcode)
 - [ ] Statusbar
     - [ ] Time remaining
