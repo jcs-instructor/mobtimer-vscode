@@ -36,8 +36,14 @@ class Timer {
     this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
   }
 
-  public update() {
-    this._statusBarItem.text = "Timer: $(clock) 00:00";
+  public update() {	
+	// Every second, update the status bar with the current time with seconds
+	setInterval(() => {
+		const date = new Date();
+		const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+		this._statusBarItem.text = `$(clock) ${time}`;
+	}, 1000);
+    //this._statusBarItem.text = "Timer: $(clock) 00:00";
     this._statusBarItem.show();
   }
 
