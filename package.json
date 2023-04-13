@@ -1,6 +1,6 @@
 {
-  "name": "helloworld",
-  "displayName": "HelloWorld",
+  "name": "mobtimer-vscode",
+  "displayName": "Mobtimer for VSCode",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -14,7 +14,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "helloworld.helloWorld",
+        "command": "mobtimer.helloWorld",
         "title": "Hello World"
       }
     ]
