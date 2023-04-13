@@ -14,30 +14,30 @@ export function activate(context: ExtensionContext) {
     'Congratulations, your extension "mobtimer.helloWorld" is now active!'
   );
 
-  let wordCounter = new WordCounter();
+  let timer = new Timer();
 
   // The commandId parameter must match the command field in package.json
   let disposable = commands.registerCommand("mobtimer.helloWorld", () => {
-    wordCounter.updateWordCount();
+    timer.update();
     console.log("Hello World from mobtimer-vscode!!");
     //window.showInformationMessage("Hello World from mobtimer-vscode!!");
   });
 
-  context.subscriptions.push(wordCounter);
+  context.subscriptions.push(timer);
   context.subscriptions.push(disposable);
 }
 
 export function deactivate() {}
 
-class WordCounter {
+class Timer {
   private _statusBarItem: StatusBarItem;
 
   public constructor() {
     this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
   }
 
-  public updateWordCount() {
-    this._statusBarItem.text = "(not a markdown file)";
+  public update() {
+    this._statusBarItem.text = "Timer: $(clock) 00:00";
     this._statusBarItem.show();
   }
 
