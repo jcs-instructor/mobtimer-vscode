@@ -21,7 +21,7 @@ Goal: Use mrozzbarry with minimal edits
     - [ ] Time remaining
     - [ ] Start/Pause
             const resetTimerLabel = '$(clock) Reset timer';
-            const cancelTimerLabel = '$(close) Rancel timer';
+            const cancelTimerLabel = '$(close) Cancel timer';
 - [ ] Rename hello world everywhere
 - [ ] Refactor/Cleanup: Remove code that was added just for mrozbarry (currently commented out - in mobSocketServer.ts in 2 places: _initialize, etc.)
 

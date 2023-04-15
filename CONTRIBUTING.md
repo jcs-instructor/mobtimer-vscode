@@ -14,5 +14,5 @@ From the Terminal:
 To start and debug:
 
 - In the terminal, enter 
-  `yarn start watch`        
+  `yarn run watch`        
 - Press F5 (i.e., Run > Debug)
