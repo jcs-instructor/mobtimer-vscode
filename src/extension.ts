@@ -11,6 +11,9 @@ import { Timer } from "./timer";
 //import { Controller } from './controller/controller';
 //import { MobTimerResponses, TimeUtils } from "mobtimer-api";
 
+import { MobTimer } from "./mobtimer-api-copy/mobTimer";
+import { Controller } from "./controller/controller";
+
 // Your extension is activated the very first time the command is executed
 export async function activate(context: ExtensionContext) {
   console.log(
@@ -18,7 +21,12 @@ export async function activate(context: ExtensionContext) {
   );
 
   // todo: in progress
-  // Controller.initializeFrontendMobTimer(onExpire);
+  Controller.initializeFrontendMobTimer(onExpire);
+
+  const mobTimer = new MobTimer();
+  mobTimer.timerExpireFunc = onExpire;
+
+  
   // const client = Controller.client;
 
   // client.webSocket.onmessage = (message: { data: string; }) => {
