@@ -1,20 +1,24 @@
 import { Status } from "../mobtimer-api-copy/status";
 import { MobTimer } from "../mobtimer-api-copy/mobTimer";
-// import * as MobTimerRequests from "../mobtimer-api-copy/mobTimerRequests";
+import * as MobTimerRequests from "../mobtimer-api-copy/mobTimerRequests";
 import * as MobTimerResponses from "../mobtimer-api-copy/mobTimerResponse";
-// import { MobSocketClient } from "../mobtimer-api-copy";
+import { MobSocketClient } from "../mobtimer-api-copy";
 
 // todo: unhardcode port
-// const url =
-//   process.env.REACT_APP_WEBSOCKET_URL ||
-//   `ws://localhost:${process.env.REACT_APP_WEBSOCKET_PORT || "4000"}`;
-// console.log("process.env", process.env);
-// console.log("url", url);
+const url =
+  process.env.REACT_APP_WEBSOCKET_URL ||
+  `ws://localhost:${process.env.REACT_APP_WEBSOCKET_PORT || "4000"}`;
+console.log("process.env", process.env);
+console.log("url", url);
 
 export class Controller {
-  // static client = MobSocketClient.openSocketSync(url);
+  // static client: MobSocketClient = Controller.initializeClient();
 
   static frontendMobTimer: MobTimer;
+
+  // private static initializeClient(): MobSocketClient {
+  //   return MobSocketClient.openSocketSync(url);
+  // }
 
   static initializeFrontendMobTimer(timerExpireFunc: () => void) {
     Controller.frontendMobTimer = new MobTimer("front-end-timer");
@@ -81,25 +85,25 @@ export class Controller {
     }
   }
 
-  // static toggle(client: MobSocketClient, frontendMobtimer: MobTimer) {
-  //   switch (frontendMobtimer.status) {
-  //     case Status.Running: {
-  //       client.pause();
-  //       frontendMobtimer.pause();
-  //       break;
-  //     }
-  //     case Status.Paused: {
-  //       client.start();
-  //       frontendMobtimer.start();
-  //       break;
-  //     }
-  //     case Status.Ready: {
-  //       client.start();
-  //       frontendMobtimer.start();
-  //       break;
-  //     }
-  //   }
-  // }
+  static toggle(client: MobSocketClient, frontendMobtimer: MobTimer) {
+    switch (frontendMobtimer.status) {
+      case Status.Running: {
+        client.pause();
+        frontendMobtimer.pause();
+        break;
+      }
+      case Status.Paused: {
+        client.start();
+        frontendMobtimer.start();
+        break;
+      }
+      case Status.Ready: {
+        client.start();
+        frontendMobtimer.start();
+        break;
+      }
+    }
+  }
 
   static changeStatus(frontendMobtimer: MobTimer, backendStatus: Status) {
     if (frontendMobtimer.status !== backendStatus) {
