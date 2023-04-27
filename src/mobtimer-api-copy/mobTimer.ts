@@ -27,9 +27,7 @@ export class MobTimer {
     // the case where the timer expires before we have had time to check.
     const timeoutMilliseconds = TimeUtils.secondsToMilliseconds(this.secondsRemaining);
     this._timer = setTimeout(() => this.onExpire(), timeoutMilliseconds);
-    if (this._timer.unref) {
-      this._timer.unref();
-    }
+    if (this._timer.unref) this._timer.unref();
   }
 
   protected onExpire() {
@@ -46,7 +44,7 @@ export class MobTimer {
     if (this._timerExpireFunc) {
       this._timerExpireFunc();
     }
-    if (this._timer) {clearTimeout(this._timer);}
+    if (this._timer) clearTimeout(this._timer);
   }
 
   start() {
@@ -190,5 +188,3 @@ export class MobTimer {
 
 
 }
-export { Status };
-

@@ -2,24 +2,22 @@ import { Action } from "./action";
 import * as MobTimerRequests from "./mobTimerRequests";
 import { WebSocketType } from "./webSocketType";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { IWebSocketWrapper } from "./iWebSocketWrapper";
 
 class MobSocketClient {
-  private _webSocket: WebSocketType;
+  private _webSocket: IWebSocketWrapper;
 
-  constructor(webSocket: WebSocketType) {
+  constructor(webSocket: IWebSocketWrapper) {
     this._webSocket = webSocket;
   }
 
-  static openSocketSync(url: string): MobSocketClient {
-    console.log("opening socket", url);
-    const socket = new W3CWebSocket(url);
-    const mobSocketClient = new MobSocketClient(socket);
+  static openSocketSync(webSocket: IWebSocketWrapper): MobSocketClient {
+    const mobSocketClient = new MobSocketClient(webSocket);
     return mobSocketClient;
   }
 
-  static async openSocket(url: string): Promise<MobSocketClient> {
-    const socket = new W3CWebSocket(url);
-    const mobSocketClient = new MobSocketClient(socket);
+  static async openSocket(webSocket: IWebSocketWrapper): Promise<MobSocketClient> {
+    const mobSocketClient = new MobSocketClient(webSocket);
     await MobSocketClient.waitForSocketState(
       mobSocketClient.webSocket,
       mobSocketClient.webSocket.OPEN
@@ -104,7 +102,7 @@ class MobSocketClient {
     this._webSocket.send(JSON.stringify(request));
   }
 
-  public get webSocket(): WebSocketType {
+  public get webSocket(): IWebSocketWrapper {
     return this._webSocket;
   }
 
