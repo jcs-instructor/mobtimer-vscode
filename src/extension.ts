@@ -7,26 +7,49 @@ import {
 } from "vscode";
 import { Timer } from "./timer";
 
-// todo: in progress
-//import { Controller } from './controller/controller';
-//import { MobTimerResponses, TimeUtils } from "mobtimer-api";
-
+import { MobTimerResponses, TimeUtils } from "./mobtimer-api-copy";
 import { MobTimer } from "./mobtimer-api-copy/mobTimer";
 import { Controller } from "./controller/controller";
+import { WSWebSocketWrapper } from "./mobtimer-api-copy";
+import WebSocket from "ws";
+
 
 // Your extension is activated the very first time the command is executed
 export async function activate(context: ExtensionContext) {
-  console.log(
-    'Congratulations, your extension "mobtimer.helloWorld" is now active!'
-  );
+  console.log('Congratulations, your extension "mobtimer.helloWorld" is now active!');
+  let timer = new Timer();
 
-  // todo: in progress
-  Controller.initializeFrontendMobTimer(onExpire);
+  // The commandId parameter must match the command field in package.json
+  let disposable = commands.registerCommand("mobtimer.helloWorld", () => {
+    timer.update();
+    console.log("Hello World from mobtimer-vscode!!");
+    // initializeMobTimer();
+    //window.showInformationMessage("Hello World from mobtimer-vscode!!");
+  });
 
-  const mobTimer = new MobTimer();
-  mobTimer.timerExpireFunc = onExpire;
+  context.subscriptions.push(timer);
+  context.subscriptions.push(disposable);
+}
 
+export function deactivate() { }
+
+function initializeMobTimer() {
+  console.log("initializeMobTimer");
   
+  // todo: unhardcode port
+  const url =
+    process.env.REACT_APP_WEBSOCKET_URL ||
+    `ws://localhost:${process.env.REACT_APP_WEBSOCKET_PORT || "4000"}`;
+
+  const socket = new WebSocket(url);
+
+  // const wrapperSocket = new WSWebSocketWrapper(url);
+
+  // Controller.initializeClientAndFrontendMobTimer(new WSWebSocketWrapper(url), onExpire);
+
+  // const mobTimer = new MobTimer();
+  // mobTimer.timerExpireFunc = onExpire;
+
   // const client = Controller.client;
 
   // client.webSocket.onmessage = (message: { data: string; }) => {
@@ -71,20 +94,5 @@ export async function activate(context: ExtensionContext) {
     // const audio = new Audio(soundSource);
     // audio.play();
   }
-
-  let timer = new Timer();
-
-  // The commandId parameter must match the command field in package.json
-  let disposable = commands.registerCommand("mobtimer.helloWorld", () => {
-    timer.update();
-    console.log("Hello World from mobtimer-vscode!!");
-    //window.showInformationMessage("Hello World from mobtimer-vscode!!");
-  });
-
-  context.subscriptions.push(timer);
-  context.subscriptions.push(disposable);
 }
-
-export function deactivate() { }
-
 

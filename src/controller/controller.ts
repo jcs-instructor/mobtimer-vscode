@@ -1,7 +1,7 @@
-import { IWebSocketWrapper, Status } from "mobtimer-api";
-import { MobTimerResponses } from "mobtimer-api";
-import { MobSocketClient } from "mobtimer-api";
-import { MobTimer } from "mobtimer-api";
+import { IWebSocketWrapper, Status } from "../mobtimer-api-copy"; // todo: later change all of these to "mobtimer-api"
+import { MobTimerResponses } from "../mobtimer-api-copy";
+import { MobSocketClient } from "../mobtimer-api-copy";
+import { MobTimer } from "../mobtimer-api-copy";
 
 export class Controller {
   
