@@ -16,7 +16,9 @@ class MobSocketClient {
     return mobSocketClient;
   }
 
-  static async openSocket(webSocket: IWebSocketWrapper): Promise<MobSocketClient> {
+  static async openSocket(
+    webSocket: IWebSocketWrapper
+  ): Promise<MobSocketClient> {
     const mobSocketClient = new MobSocketClient(webSocket);
     await MobSocketClient.waitForSocketState(
       mobSocketClient.webSocket,
@@ -57,6 +59,7 @@ class MobSocketClient {
   }
 
   joinMob(mobName: string) {
+    console.log("sending join request", mobName);
     this._sendJSON({
       action: Action.Join,
       mobName,
@@ -102,7 +105,7 @@ class MobSocketClient {
     this._webSocket.send(JSON.stringify(request));
   }
 
-  public get webSocket(): IWebSocketWrapper {
+  public get webSocket(): any {
     return this._webSocket;
   }
 

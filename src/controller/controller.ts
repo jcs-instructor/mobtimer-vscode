@@ -4,24 +4,27 @@ import { MobSocketClient } from "../mobtimer-api-copy";
 import { MobTimer } from "../mobtimer-api-copy";
 
 export class Controller {
-  
   static frontendMobTimer: MobTimer;
   static client: MobSocketClient;
-  
-  static initializeClientAndFrontendMobTimer(webSocket: IWebSocketWrapper, timerExpireFunc: () => void) {
+
+  static initializeClientAndFrontendMobTimer(
+    webSocket: IWebSocketWrapper,
+    timerExpireFunc: () => void
+  ) {
     Controller.client = new MobSocketClient(webSocket);
+    console.log("Initializing frontend mob timer");
     Controller.frontendMobTimer = new MobTimer("front-end-timer");
     Controller.frontendMobTimer.timerExpireFunc = () => {
       timerExpireFunc();
     };
   }
-  
+
   static getAppTitle() {
     return "Mob Timer";
   }
-  
+
   // injections -----------------------
-  
+
   // inject duration minutes
   static setDurationMinutes = (_durationMinutes: number) => {}; // todo: consider alternatives to putting an underscore in the name; e.g., try abstract method/class, or interface
   static injectSetDurationMinutes(
