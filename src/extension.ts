@@ -1,10 +1,5 @@
 import { SERVFAIL } from "dns";
-import {
-  commands,
-  Disposable,
-  ExtensionContext,
-  TextDocument,
-} from "vscode";
+import { commands, Disposable, ExtensionContext, TextDocument } from "vscode";
 import { Timer } from "./timer";
 
 import { MobTimerResponses, TimeUtils } from "./mobtimer-api-copy";
@@ -13,10 +8,11 @@ import { Controller } from "./controller/controller";
 import { WSWebSocketWrapper } from "./mobtimer-api-copy";
 import WebSocket from "ws";
 
-
 // Your extension is activated the very first time the command is executed
 export async function activate(context: ExtensionContext) {
-  console.log('Congratulations, your extension "mobtimer.helloWorld" is now active!');
+  console.log(
+    'Congratulations, your extension "mobtimer.helloWorld" is now active!'
+  );
   let timer = new Timer();
 
   // The commandId parameter must match the command field in package.json
@@ -31,19 +27,19 @@ export async function activate(context: ExtensionContext) {
   context.subscriptions.push(disposable);
 }
 
-export function deactivate() { }
+export function deactivate() {}
 
 function initializeMobTimer() {
   console.log("initializeMobTimer");
-  
+
   // todo: unhardcode port
   const url =
     process.env.REACT_APP_WEBSOCKET_URL ||
     `ws://localhost:${process.env.REACT_APP_WEBSOCKET_PORT || "4000"}`;
 
-  const socket = new WebSocket(url);
+  // const socket = new WebSocket(url);
 
-  // const wrapperSocket = new WSWebSocketWrapper(url);
+  const wrapperSocket = new WSWebSocketWrapper(url);
 
   // Controller.initializeClientAndFrontendMobTimer(new WSWebSocketWrapper(url), onExpire);
 
@@ -66,11 +62,11 @@ function initializeMobTimer() {
   //     "RemainingSec:" + response.mobState.secondsRemaining + " (" + TimeUtils.getTimeString(response.mobState.secondsRemaining) + ") "
   //   );
 
-  //   // Read response data 
+  //   // Read response data
   //   const { mobStatus, durationMinutes, participants, secondsRemaining } = Controller.translateResponseData(response);
 
   //   // Derive mob label from response status
-  //   const label = Controller.getActionButtonLabel(mobStatus); // todo: make enum 
+  //   const label = Controller.getActionButtonLabel(mobStatus); // todo: make enum
 
   //   // modify frontend mob timer
   //   Controller.changeStatus(Controller.frontendMobTimer, mobStatus);
@@ -95,4 +91,3 @@ function initializeMobTimer() {
     // audio.play();
   }
 }
-

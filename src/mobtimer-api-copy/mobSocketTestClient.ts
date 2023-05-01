@@ -15,8 +15,8 @@ class MobSocketTestClient extends MobSocketClient {
   constructor(webSocket: IWebSocketWrapper) {
     super(webSocket);
     this._socket = webSocket;
-    this._socket.onmessage = (message) => {
-      console.log("message:::::::::::::::", message)
+    this._socket.onmessage2 = (message) => {
+      console.log("message:::::::::::::::", message);
       this.trackMessage(message);
     };
   }
@@ -51,7 +51,9 @@ class MobSocketTestClient extends MobSocketClient {
     return mobSocketTestClient;
   }
 
-  static async openSocket(webSocket: IWebSocketWrapper): Promise<MobSocketTestClient> {
+  static async openSocket(
+    webSocket: IWebSocketWrapper
+  ): Promise<MobSocketTestClient> {
     const mobSocketTestClient = new MobSocketTestClient(webSocket);
     await mobSocketTestClient.waitForSocketState(
       mobSocketTestClient.webSocket.OPEN

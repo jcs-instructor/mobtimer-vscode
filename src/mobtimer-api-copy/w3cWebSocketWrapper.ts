@@ -2,7 +2,6 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 import { WebSocketType } from "./webSocketType";
 import { IWebSocketWrapper } from "./iWebSocketWrapper";
 
-
 export class W3CWebSocketWrapper implements IWebSocketWrapper {
   private _webSocket: WebSocketType;
 
@@ -30,7 +29,7 @@ export class W3CWebSocketWrapper implements IWebSocketWrapper {
     return this._webSocket.CLOSED;
   }
 
-  public set onmessage(handler: (message: { data: string; }) => void) {
+  public set onmessage2(handler: (message: { data: string }) => void) {
     this._webSocket.onmessage = handler;
   }
 }
