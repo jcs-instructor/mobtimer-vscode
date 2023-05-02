@@ -22,7 +22,7 @@ class MobSocketClient {
     const mobSocketClient = new MobSocketClient(webSocket);
     await MobSocketClient.waitForSocketState(
       mobSocketClient.webSocket,
-      mobSocketClient.webSocket.OPEN
+      mobSocketClient.webSocket.OPEN_CODE
     );
     return mobSocketClient;
   }
@@ -33,13 +33,13 @@ class MobSocketClient {
    * @param state The desired `readyState` for the socket
    */
   static waitForSocketState(
-    socket: { readyState: number },
+    socket: { socketState: number },
     state: number
   ): Promise<void> {
     const client = this;
     return new Promise(function (resolve) {
       const timeout = setTimeout(function () {
-        if (socket.readyState === state) {
+        if (socket.socketState === state) {
           resolve();
         } else {
           MobSocketClient.waitForSocketState(socket, state).then(resolve);
@@ -102,7 +102,7 @@ class MobSocketClient {
   }
 
   private _sendJSON(request: MobTimerRequests.MobTimerRequest) {
-    this._webSocket.send(JSON.stringify(request));
+    this._webSocket.sendMessage(JSON.stringify(request));
   }
 
   public get webSocket(): any {
@@ -110,8 +110,8 @@ class MobSocketClient {
   }
 
   async closeSocket() {
-    this.webSocket.close();
-    await this.waitForSocketState(this.webSocket.CLOSED);
+    this.webSocket.closeSocket();
+    await this.waitForSocketState(this.webSocket.CLOSED_CODE);
   }
 }
 

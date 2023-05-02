@@ -79,14 +79,14 @@ async function initializeMobTimer() {
     }
   };
 
-  await client.waitForSocketState(WebSocket.OPEN);
+  await client.waitForSocketState(client.webSocket.OPEN_CODE);
 
   client.joinMob("front-end-timer");
   console.log("joined mob", Controller.frontendMobTimer);
 }
 
 // todo: in progress
-// await client.waitForSocketState(WebSocket.OPEN);
+// await client.waitForSocketState(WebSocket.OPEN_CODE);
 // const mobName = "test-mob-temp-xxxxxxxxxxxxx"; // todo unhardcode
 // client.joinMob(mobName);
 // console.log('joined mob', mobName, client);

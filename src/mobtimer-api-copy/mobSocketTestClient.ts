@@ -56,7 +56,7 @@ class MobSocketTestClient extends MobSocketClient {
   ): Promise<MobSocketTestClient> {
     const mobSocketTestClient = new MobSocketTestClient(webSocket);
     await mobSocketTestClient.waitForSocketState(
-      mobSocketTestClient.webSocket.OPEN
+      mobSocketTestClient.webSocket.OPEN_CODE
     );
     return mobSocketTestClient;
   }
