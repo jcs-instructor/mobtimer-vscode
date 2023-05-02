@@ -4,7 +4,7 @@ import { MobTimer, MobTimerResponses, TimeUtils } from "mobtimer-api";
 import { WSWebSocketWrapper } from "./mobtimer-api-copy";
 import { WebSocket } from "ws";
 
-export class Beta {
+export class VscodeMobTimer {
   private _statusBarItem: StatusBarItem;
   private _seconds = 0;
 
@@ -43,10 +43,8 @@ async function initializeMobTimer() {
 
   Controller.initializeClientAndFrontendMobTimer(wrapperSocket, onExpire);
 
-  const mobTimer = new MobTimer();
-  mobTimer.timerExpireFunc = onExpire;
-
   const client = Controller.client;
+  Controller.frontendMobTimer.timerExpireFunc = onExpire;
 
   client.webSocket.onmessage = async (message: { data: string }) => {
     // Get response from server
@@ -56,29 +54,6 @@ async function initializeMobTimer() {
     ) as MobTimerResponses.SuccessfulResponse;
 
     // todo: handle if response is not successful
-
-    console.log(
-      "MOB: " +
-        response.mobState.mobName +
-        " (" +
-        response.mobState.participants.length +
-        " Participant(s):" +
-        response.mobState.participants.join(",") +
-        "), " +
-        "Action:" +
-        response.actionInfo.action +
-        ", " +
-        "Status:" +
-        response.mobState.status +
-        ", DurationMin:" +
-        response.mobState.durationMinutes +
-        ", " +
-        "RemainingSec:" +
-        response.mobState.secondsRemaining +
-        " (" +
-        TimeUtils.getTimeString(response.mobState.secondsRemaining) +
-        ") "
-    );
 
     // Read response data
     const { mobStatus, durationMinutes, participants, secondsRemaining } =
