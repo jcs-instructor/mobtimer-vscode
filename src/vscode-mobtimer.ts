@@ -46,7 +46,7 @@ async function initializeMobTimer() {
   const client = Controller.client;
   Controller.frontendMobTimer.timerExpireFunc = onExpire;
 
-  client.webSocket.onmessage = async (message: { data: string }) => {
+  client.webSocket.onmessage2 = async (message: { data: string }) => {
     // Get response from server
     console.log("message:::::::::::::::", message);
     const response = JSON.parse(
