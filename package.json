@@ -43,6 +43,7 @@
   "dependencies": {
     "@types/ws": "^8.5.4",
     "mobtimer-api": "^1.0.15",
+    "websocket": "^1.0.34",
     "ws": "^8.13.0"
   }
 }
