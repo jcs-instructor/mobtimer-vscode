@@ -29,7 +29,7 @@ export class W3CWebSocketWrapper implements IWebSocketWrapper {
     return this._webSocket.CLOSED;
   }
 
-  public set onmessage2(handler: (message: { data: string }) => void) {
+  public set onmessageReceived(handler: (message: { data: string }) => void) {
     this._webSocket.onmessage = handler;
   }
 }
