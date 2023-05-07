@@ -3,6 +3,9 @@ import { Status } from "./status";
 import { TimeUtils } from "./timeUtils";
 
 export class MobTimer {
+  getNextCommand() {
+    throw new Error("Method not implemented.");
+  }
   private _mobName = "";
   private _durationMinutes = 5;
   private _whenLastStartedInSeconds = 0;
@@ -11,11 +14,10 @@ export class MobTimer {
   private _previouslyAccumulatedElapsedSeconds = 0;
   private _running = false;
   private _timer: NodeJS.Timeout | undefined;
-  private _timerExpireFunc = () => { };
+  private _timerExpireFunc = () => {};
   private _ready = true;
-  private readonly _participants: string[] = [];
-
-  sockets: any;
+  private _participants: string[] = [];
+  nextCommands: any;
 
   constructor(mobName: string = "") {
     this._mobName = mobName;
@@ -25,7 +27,9 @@ export class MobTimer {
     // We will wait until very near when the timer should expire, and then very
     // frequently check to see if the timer has expired. This is to avoid
     // the case where the timer expires before we have had time to check.
-    const timeoutMilliseconds = TimeUtils.secondsToMilliseconds(this.secondsRemaining);
+    const timeoutMilliseconds = TimeUtils.secondsToMilliseconds(
+      this.secondsRemaining
+    );
     this._timer = setTimeout(() => this.onExpire(), timeoutMilliseconds);
     if (this._timer.unref) this._timer.unref();
   }
@@ -88,10 +92,13 @@ export class MobTimer {
   getLogInfo() {
     return {
       mobName: this._mobName,
-      previouslyAccumulatedElapsedSeconds: this._previouslyAccumulatedElapsedSeconds,
+      previouslyAccumulatedElapsedSeconds:
+        this._previouslyAccumulatedElapsedSeconds,
       nowInSeconds: this._nowInSecondsFunc(),
       whenLastStartedInSeconds: this._whenLastStartedInSeconds,
-      elapsedSeconds: this._previouslyAccumulatedElapsedSeconds + (this._nowInSecondsFunc() - this._whenLastStartedInSeconds)
+      elapsedSeconds:
+        this._previouslyAccumulatedElapsedSeconds +
+        (this._nowInSecondsFunc() - this._whenLastStartedInSeconds),
     };
   }
 
@@ -161,7 +168,8 @@ export class MobTimer {
 
   public addParticipant(name: string) {
     const trimmedName = name.trim();
-    if (trimmedName.length > 0) { // todo also check for duplicates, i.e.,  && !participants.includes(trimmedName))
+    if (trimmedName.length > 0) {
+      // todo also check for duplicates, i.e.,  && !participants.includes(trimmedName))
       this._participants.push(trimmedName);
     }
   }
@@ -179,12 +187,17 @@ export class MobTimer {
     }
   }
 
+  editParticipants(participants: string[]) {
+    this._participants = participants;
+  }
+
   shuffleParticipants() {
     for (let i = this._participants.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [this._participants[i], this._participants[j]] = [this._participants[j], this._participants[i]];
+      [this._participants[i], this._participants[j]] = [
+        this._participants[j],
+        this._participants[i],
+      ];
     }
   }
-
-
 }

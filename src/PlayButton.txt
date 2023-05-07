@@ -1,0 +1,32 @@
+import { StatusBarAlignment, StatusBarItem, window } from "vscode";
+import { Controller } from "./controller/controller";
+
+export class PlayButton {
+  private _statusBarItem: StatusBarItem;
+
+  public constructor() {
+    this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
+    this._statusBarItem.text = this.getPlayButtonLabel();
+  }
+
+  getPlayButtonLabel() {
+    switch (Controller.frontendMobTimer.getNextCommand()) {
+      case Controller.frontendMobTimer.nextCommands.start:
+        return "Start";
+      case Controller.frontendMobTimer.nextCommands.resume:
+        return "Resume";
+      case Controller.frontendMobTimer.nextCommands.pause:
+        return "Pause";
+      default:
+        return "????";
+    }
+  }
+
+  public update() {
+    this._statusBarItem.text = this.getPlayButtonLabel();
+  }
+
+  dispose() {
+    this._statusBarItem.dispose();
+  }
+}
