@@ -1,7 +1,4 @@
-import {
-  window, StatusBarAlignment,
-  StatusBarItem
-} from "vscode";
+import { window, StatusBarAlignment, StatusBarItem } from "vscode";
 
 export class Timer {
   private _statusBarItem: StatusBarItem;
@@ -12,12 +9,10 @@ export class Timer {
 
   public update() {
     // Every second, update the status bar with the current time with seconds
-    setInterval(
-      () => {
-        const text = `[ $(clock) CURRENT TIME: ${this.getCurrentTime()} ]`;
-        this._statusBarItem.text = text;
-      },
-      1000); // 1000 ms = 1 second 
+    setInterval(() => {
+      const text = `[ $(clock) CURRENT ELEPHANT: ${this.getCurrentTime()} ]`;
+      this._statusBarItem.text = text;
+    }, 1000); // 1000 ms = 1 second
     this._statusBarItem.show();
   }
 

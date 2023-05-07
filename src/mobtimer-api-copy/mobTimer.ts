@@ -1,11 +1,9 @@
 import { MobState } from "./mobState";
 import { Status } from "./status";
 import { TimeUtils } from "./timeUtils";
+import { Command } from "./commands";
 
 export class MobTimer {
-  getNextCommand() {
-    throw new Error("Method not implemented.");
-  }
   private _mobName = "";
   private _durationMinutes = 5;
   private _whenLastStartedInSeconds = 0;
@@ -17,7 +15,6 @@ export class MobTimer {
   private _timerExpireFunc = () => {};
   private _ready = true;
   private _participants: string[] = [];
-  nextCommands: any;
 
   constructor(mobName: string = "") {
     this._mobName = mobName;
@@ -32,6 +29,21 @@ export class MobTimer {
     );
     this._timer = setTimeout(() => this.onExpire(), timeoutMilliseconds);
     if (this._timer.unref) this._timer.unref();
+  }
+
+  get nextCommand() {
+    let nextCommand;
+    switch (this.status) {
+      case Status.Running:
+        nextCommand = Command.Pause;
+        break;
+      case Status.Paused:
+        nextCommand = Command.Resume;
+        break;
+      default:
+        nextCommand = Command.Start;
+    }
+    return nextCommand;
   }
 
   protected onExpire() {

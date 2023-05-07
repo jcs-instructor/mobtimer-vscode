@@ -1,14 +1,12 @@
 import { commands, ExtensionContext } from "vscode";
 import { VscodeMobTimer } from "./vscode-mobtimer";
-// import { PlayButton } from "./PlayButton";
 
 // Your extension is activated the very first time the command is executed
 export async function activate(context: ExtensionContext) {
   console.log(
-    'Congratulations, your extension "mobtimer.helloWorld" is now active!'
+    'Congratulations Ethan, your extension "mobtimer.helloWorld" is now active!'
   );
   let vscodeMobTimer = new VscodeMobTimer();
-  // let playButtion = new PlayButton();
 
   // The commandId parameter must match the command field in package.json
   let disposable = commands.registerCommand("mobtimer.helloWorld", () => {

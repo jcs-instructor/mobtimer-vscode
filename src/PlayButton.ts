@@ -1,5 +1,6 @@
 import { StatusBarAlignment, StatusBarItem, window } from "vscode";
 import { Controller } from "./controller/controller";
+import { Command } from "./mobtimer-api-copy";
 
 export class PlayButton {
   private _statusBarItem: StatusBarItem;
@@ -10,15 +11,19 @@ export class PlayButton {
   }
 
   getPlayButtonLabel() {
-    switch (Controller.frontendMobTimer.getNextCommand()) {
-      case Controller.frontendMobTimer.nextCommands.start:
-        return "Start";
-      case Controller.frontendMobTimer.nextCommands.resume:
-        return "Resume";
-      case Controller.frontendMobTimer.nextCommands.pause:
-        return "Pause";
-      default:
-        return "????";
+    switch (Controller.frontendMobTimer.nextCommand) {
+      case Command.Pause: {
+        return "⏸️ Pause";
+      }
+      case Command.Resume: {
+        return "▶️ Resume";
+      }
+      case Command.Start: {
+        return "▶️ Start";
+      }
+      default: {
+        return "???";
+      }
     }
   }
 
