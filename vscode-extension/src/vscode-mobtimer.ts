@@ -5,8 +5,8 @@ import {
   MobTimer,
   MobTimerResponses,
   TimeUtils,
-} from "../mobtimer-api/src";
-import { WSWebSocketWrapper } from "../mobtimer-api/src";
+} from "../../mobtimer-api/src";
+import { WSWebSocketWrapper } from "../../mobtimer-api/src";
 import { WebSocket } from "ws";
 import { get } from "http";
 

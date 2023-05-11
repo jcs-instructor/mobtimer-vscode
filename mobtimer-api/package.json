@@ -1,51 +1,30 @@
 {
-  "name": "mobtimer-vscodeversion20",
-  "displayName": "Mobtimer for VSCode",
-  "repository": "mobtimer-vscode",
-  "description": "",
-  "version": "0.0.20",
-  "engines": {
-    "vscode": "^1.77.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "mobtimer.helloWorldversion20"
-  ],
-  "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "mobtimer.helloWorldversion20",
-        "title": "Hello World version20"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "yarn run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "yarn run compile && yarn run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./dist/test/runTest.js"
+  "name": "mobtimer-api",
+  "version": "1.0.36",
+  "description": "Mobtimer api",
+  "main": "index.js",
+  "dependencies": {
+    "@types/uuidv4": "^5.0.0",
+    "@types/websocket": "^1.0.5",
+    "mobtimer-api": "^1.0.15",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "16.x",
-    "@types/vscode": "^1.77.0",
-    "@typescript-eslint/eslint-plugin": "^5.56.0",
-    "@typescript-eslint/parser": "^5.56.0",
-    "@vscode/test-electron": "^2.3.0",
-    "eslint": "^8.36.0",
-    "glob": "^8.1.0",
-    "mocha": "^10.2.0",
-    "typescript": "^4.9.5"
+    "tsc": "^2.0.4",
+    "typescript": "^4.8.4"
   },
-  "dependencies": {
-    "@types/ws": "^8.5.4",
-    "websocket": "^1.0.34",
-    "ws": "^8.13.0"
-  }
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "build:watch": "tsc -w"
+  },
+  "author": "Joel Silberman and Ethan Strominger",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "?"
+  },
+  "keywords": [
+    "?"
+  ]
 }
