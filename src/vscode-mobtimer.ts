@@ -18,8 +18,7 @@ export class VscodeMobTimer {
   public constructor() {
     this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
     this._playButton = window.createStatusBarItem(StatusBarAlignment.Left);
-    // this._playButton.text = getPlayButtonLabel();
-    this._playButton.text = "Large elephant";
+    this._playButton.text = getPlayButtonLabel();
     this._playButton.show();
     initializeClient();
     const client = Controller.client;
@@ -38,9 +37,9 @@ export class VscodeMobTimer {
     // Every second, update the status bar with the current time with seconds
     console.log("update");
     setInterval(() => {
-      console.log("Clicking the button");
+      console.log("Clicking version17");
       this._seconds++;
-      const text = `[ $(clock) ${this._seconds} ELEPHANT: ${Controller.frontendMobTimer.secondsRemainingString} ]`;
+      const text = `[ $(clock) ${this._seconds} version17: ${Controller.frontendMobTimer.secondsRemainingString} ]`;
       this._statusBarItem.text = text;
     }, 1000); // 1000 ms = 1 second
     this._statusBarItem.show();

@@ -4,14 +4,14 @@ import { VscodeMobTimer } from "./vscode-mobtimer";
 // Your extension is activated the very first time the command is executed
 export async function activate(context: ExtensionContext) {
   console.log(
-    'Congratulations Ethan, your extension "mobtimer.helloWorld" is now active!'
+    'Congratulations, your extension "mobtimer.helloWorld" is now active!'
   );
   let vscodeMobTimer = new VscodeMobTimer();
 
   // The commandId parameter must match the command field in package.json
   let disposable = commands.registerCommand("mobtimer.helloWorld", () => {
     vscodeMobTimer.update();
-    console.log("Hello World version17 from mobtimer-vscode!!");
+    console.log("Hello World from mobtimer-vscode!!");
     //window.showInformationMessage("Hello World from mobtimer-vscode!!");
   });
 

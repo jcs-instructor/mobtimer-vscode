@@ -1,8 +1,9 @@
 {
-  "name": "mobtimer-vscode",
+  "name": "mobtimer-vscodeversion17",
   "displayName": "Mobtimer for VSCode",
+  "repository": "mobtimer-vscode",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.17",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -10,12 +11,12 @@
     "Other"
   ],
   "activationEvents": [],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "mobtimer.helloWorld",
-        "title": "Hello World"
+        "title": "Hello World version17"
       }
     ]
   },
@@ -25,7 +26,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./dist/test/runTest.js"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
