@@ -1,7 +1,7 @@
-import { IWebSocketWrapper, Status } from "../../../mobtimer-api/src";
-import { MobTimerResponses } from "../../../mobtimer-api/src";
-import { MobSocketClient } from "../../../mobtimer-api/src";
-import { MobTimer } from "../../../mobtimer-api/src";
+import { IWebSocketWrapper, Status } from "mobtimer-api";
+import { MobTimerResponses } from "mobtimer-api";
+import { MobSocketClient } from "mobtimer-api";
+import { MobTimer } from "mobtimer-api";
 
 export class Controller {
   static updateSummary() {

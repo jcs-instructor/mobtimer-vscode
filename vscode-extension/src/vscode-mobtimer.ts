@@ -1,12 +1,7 @@
 import { StatusBarAlignment, StatusBarItem, window } from "vscode";
 import { Controller } from "./controller/controller";
-import {
-  Command,
-  MobTimer,
-  MobTimerResponses,
-  TimeUtils,
-} from "../../mobtimer-api/src";
-import { WSWebSocketWrapper } from "../../mobtimer-api/src";
+import { Command, MobTimer, MobTimerResponses, TimeUtils } from "mobtimer-api";
+import { WSWebSocketWrapper } from "mobtimer-api";
 import { WebSocket } from "ws";
 import { get } from "http";
 

@@ -15,5 +15,7 @@ cd ../../mobtimer-frontend
 yarn add mobtimer-api
 cd ../mobtimer-backend
 yarn add mobtimer-api
+cd ../vscode-extension
+yarn add mobtimer-api
 
 
