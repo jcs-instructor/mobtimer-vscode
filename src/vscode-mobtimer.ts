@@ -37,9 +37,9 @@ export class VscodeMobTimer {
     // Every second, update the status bar with the current time with seconds
     console.log("update");
     setInterval(() => {
-      console.log("Clicking version17");
+      console.log("Clicking version20");
       this._seconds++;
-      const text = `[ $(clock) ${this._seconds} version17: ${Controller.frontendMobTimer.secondsRemainingString} ]`;
+      const text = `[ $(clock) ${this._seconds} version20: ${Controller.frontendMobTimer.secondsRemainingString} ]`;
       this._statusBarItem.text = text;
     }, 1000); // 1000 ms = 1 second
     this._statusBarItem.show();
@@ -116,7 +116,7 @@ function onExpire() {
 }
 
 function getPlayButtonLabel() {
-  switch (Controller.frontendMobTimer.nextCommand) {
+  switch (Controller.frontendMobTimer?.nextCommand) {
     case Command.Pause: {
       return "⏸️ Pause";
     }
