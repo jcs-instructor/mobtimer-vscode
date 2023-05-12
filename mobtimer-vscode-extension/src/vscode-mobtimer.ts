@@ -15,6 +15,7 @@ export class VscodeMobTimer {
   private _seconds = 0;
 
   public constructor() {
+    console.log("Debug VscodeMobTimer constructor");
     this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
     this._playButton = window.createStatusBarItem(StatusBarAlignment.Left);
     this._playButton.text = getPlayButtonLabel();
@@ -24,15 +25,20 @@ export class VscodeMobTimer {
       `ws://localhost:${process.env.REACT_APP_WEBSOCKET_PORT || "4000"}`;
     const wrapperSocket = new WSWebSocketWrapper(url) as IWebSocketWrapper;
     Controller.client = new MobSocketClient(wrapperSocket);
+    console.log(
+      "Debug Controller.client",
+      Controller.client.webSocket ? "exists" : "does not exist"
+    );
     const mobName = "front-end-timer";
-    Controller.frontendMobTimer = new MobTimer(mobName);
     Controller.frontendMobTimer.timerExpireFunc = onExpire;
     const client = Controller.client;
+    Controller.frontendMobTimer = new MobTimer(mobName);
     client.joinMob(mobName);
     client.webSocket.onmessageReceived = async (message: { data: string }) => {
       // Get response from server
+      console.log("message received");
       controllerOnMessage(message);
-      this._playButton.text = "Large tiger";
+      this._playButton.text = getPlayButtonLabel();
       this._playButton.show();
     };
   }
@@ -41,9 +47,9 @@ export class VscodeMobTimer {
     // Every second, update the status bar with the current time with seconds
     console.log("update");
     setInterval(() => {
-      console.log("Clicking version20");
+      console.log("Clicking version23");
       this._seconds++;
-      const text = `[ $(clock) ${this._seconds} version20: ${Controller.frontendMobTimer.secondsRemainingString} ]`;
+      const text = `[ $(clock) ${this._seconds} version23: ${Controller.frontendMobTimer.secondsRemainingString} ]`;
       this._statusBarItem.text = text;
     }, 1000); // 1000 ms = 1 second
     this._statusBarItem.show();

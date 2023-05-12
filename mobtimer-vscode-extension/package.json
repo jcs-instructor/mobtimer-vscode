@@ -1,9 +1,9 @@
 {
-  "name": "mobtimer-vscodeversion20",
+  "name": "mobtimer-vscodeversion23",
   "displayName": "Mobtimer for VSCode",
   "repository": "mobtimer-vscode",
   "description": "",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -11,14 +11,14 @@
     "Other"
   ],
   "activationEvents": [
-    "mobtimer.helloWorldversion20"
+    "mobtimer.helloWorldversion23"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "mobtimer.helloWorldversion20",
-        "title": "Hello World version20"
+        "command": "mobtimer.helloWorldversion23",
+        "title": "Hello World version23"
       }
     ]
   },

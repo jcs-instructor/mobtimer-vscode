@@ -14,6 +14,7 @@ Goal: Use mrozzbarry with minimal edits
 ## Must Haves for Ethan & Joel
 
 - [x] Show some text in statusbar
+- [ ] For debugging, run watch of compile mobtimer-api 
 - [ ] Currently modifying frontend, so see that project first
   - [ ] WIP: Use mobtimer controller (code reuse)  
 - [ ] See if can run Hello World when extension loads instead of having to run it as a task
