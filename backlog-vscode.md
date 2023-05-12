@@ -13,7 +13,8 @@ Goal: Use mrozzbarry with minimal edits
 
 ## Must Haves for Ethan & Joel
 
-- [x] Show some text in statusbar
+- [ ] Review mobtimer-api/src/flow.md
+- [ ] Review mobtimer-vscode-extension/package.json (i.e., why: "name": "mobtimer-vscodeversion20" ?)
 - [ ] Currently modifying frontend, so see that project first
   - [ ] WIP: Use mobtimer controller (code reuse)  
 - [ ] See if can run Hello World when extension loads instead of having to run it as a task
@@ -39,6 +40,8 @@ Goal: Use mrozzbarry with minimal edits
 - [ ] Required if and when merging to mrozzbarry (change our fork here: https://github.com/jcs-instructor/mobtime-vscode-extension)
   - [ ] Configure URL
     - [ ] replace all localhost:4000 with mobti.me and figure out how to configure URL
+- [ ] Update license files (e.g., one file currently says, "Be good" - consider changing; e.g., MIT license?)
+- [ ] Update readme for vscode extension (i.e., currently says, "This is a beta release while in development.")
 
 ## Completed VSCode Extension tasks
 
