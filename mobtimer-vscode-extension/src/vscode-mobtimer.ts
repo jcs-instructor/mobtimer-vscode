@@ -64,7 +64,7 @@ function initializeClient() {
   // const socket = new WebSocket(url);
   const wrapperSocket = new WSWebSocketWrapper(url) as any;
 
-  Controller.initializeClientAndFrontendMobTimer(wrapperSocket, onExpire);
+  Controller.initializeFrontendMobTimer(wrapperSocket, onExpire);
 }
 
 function controllerOnMessage(message: { data: string }) {
