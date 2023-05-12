@@ -1,9 +1,13 @@
 import { StatusBarAlignment, StatusBarItem, window } from "vscode";
 import { Controller } from "./controller/controller";
-import { Command, MobTimer, MobTimerResponses, TimeUtils } from "mobtimer-api";
+import {
+  Command,
+  IWebSocketWrapper,
+  MobSocketClient,
+  MobTimer,
+  MobTimerResponses,
+} from "mobtimer-api";
 import { WSWebSocketWrapper } from "mobtimer-api";
-import { WebSocket } from "ws";
-import { get } from "http";
 
 export class VscodeMobTimer {
   private _statusBarItem: StatusBarItem;
@@ -15,17 +19,22 @@ export class VscodeMobTimer {
     this._playButton = window.createStatusBarItem(StatusBarAlignment.Left);
     this._playButton.text = getPlayButtonLabel();
     this._playButton.show();
-    initializeClient();
-    const client = Controller.client;
+    const url =
+      process.env.REACT_APP_WEBSOCKET_URL ||
+      `ws://localhost:${process.env.REACT_APP_WEBSOCKET_PORT || "4000"}`;
+    const wrapperSocket = new WSWebSocketWrapper(url) as IWebSocketWrapper;
+    Controller.client = new MobSocketClient(wrapperSocket);
+    const mobName = "front-end-timer";
+    Controller.frontendMobTimer = new MobTimer(mobName);
     Controller.frontendMobTimer.timerExpireFunc = onExpire;
+    const client = Controller.client;
+    client.joinMob(mobName);
     client.webSocket.onmessageReceived = async (message: { data: string }) => {
       // Get response from server
       controllerOnMessage(message);
       this._playButton.text = "Large tiger";
       this._playButton.show();
     };
-
-    initializeMobTimer();
   }
 
   public update() {
@@ -43,28 +52,6 @@ export class VscodeMobTimer {
   dispose() {
     this._statusBarItem.dispose();
   }
-}
-
-async function initializeMobTimer(client = Controller.client) {
-  console.log("initializeMobTimer");
-
-  // todo: unhardcode port
-
-  await client.waitForSocketState(client.webSocket.OPEN_CODE);
-
-  client.joinMob("front-end-timer");
-  console.log("joined mob", Controller.frontendMobTimer);
-}
-
-function initializeClient() {
-  const url =
-    process.env.REACT_APP_WEBSOCKET_URL ||
-    `ws://localhost:${process.env.REACT_APP_WEBSOCKET_PORT || "4000"}`;
-
-  // const socket = new WebSocket(url);
-  const wrapperSocket = new WSWebSocketWrapper(url) as any;
-
-  Controller.initializeFrontendMobTimer(wrapperSocket, onExpire);
 }
 
 function controllerOnMessage(message: { data: string }) {
