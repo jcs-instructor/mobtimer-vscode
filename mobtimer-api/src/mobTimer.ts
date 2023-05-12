@@ -1,7 +1,6 @@
 import { MobState } from "./mobState";
 import { Status } from "./status";
 import { TimeUtils } from "./timeUtils";
-import { Command } from "./commands";
 
 export class MobTimer {
   private _mobName = "";
@@ -12,9 +11,10 @@ export class MobTimer {
   private _previouslyAccumulatedElapsedSeconds = 0;
   private _running = false;
   private _timer: NodeJS.Timeout | undefined;
-  private _timerExpireFunc = () => {};
+  private _timerExpireFunc = () => { };
   private _ready = true;
   private _participants: string[] = [];
+  private _roles: string[] = ["🗣️ Navigator", "🛞 Driver"];
 
   constructor(mobName: string = "") {
     this._mobName = mobName;
@@ -24,26 +24,9 @@ export class MobTimer {
     // We will wait until very near when the timer should expire, and then very
     // frequently check to see if the timer has expired. This is to avoid
     // the case where the timer expires before we have had time to check.
-    const timeoutMilliseconds = TimeUtils.secondsToMilliseconds(
-      this.secondsRemaining
-    );
+    const timeoutMilliseconds = TimeUtils.secondsToMilliseconds(this.secondsRemaining);
     this._timer = setTimeout(() => this.onExpire(), timeoutMilliseconds);
     if (this._timer.unref) this._timer.unref();
-  }
-
-  get nextCommand() {
-    let nextCommand;
-    switch (this.status) {
-      case Status.Running:
-        nextCommand = Command.Pause;
-        break;
-      case Status.Paused:
-        nextCommand = Command.Resume;
-        break;
-      default:
-        nextCommand = Command.Start;
-    }
-    return nextCommand;
   }
 
   protected onExpire() {
@@ -83,6 +66,7 @@ export class MobTimer {
 
   pause() {
     this._running = false;
+    this._ready = false;
     if (this._timer) {
       clearTimeout(this._timer);
     }
@@ -97,6 +81,7 @@ export class MobTimer {
       status: this.status,
       durationMinutes: this.durationMinutes,
       participants: this._participants,
+      roles: this._roles,
       secondsRemaining: this.secondsRemaining,
     } as MobState;
   }
@@ -104,13 +89,10 @@ export class MobTimer {
   getLogInfo() {
     return {
       mobName: this._mobName,
-      previouslyAccumulatedElapsedSeconds:
-        this._previouslyAccumulatedElapsedSeconds,
+      previouslyAccumulatedElapsedSeconds: this._previouslyAccumulatedElapsedSeconds,
       nowInSeconds: this._nowInSecondsFunc(),
       whenLastStartedInSeconds: this._whenLastStartedInSeconds,
-      elapsedSeconds:
-        this._previouslyAccumulatedElapsedSeconds +
-        (this._nowInSecondsFunc() - this._whenLastStartedInSeconds),
+      elapsedSeconds: this._previouslyAccumulatedElapsedSeconds + (this._nowInSecondsFunc() - this._whenLastStartedInSeconds)
     };
   }
 
@@ -178,10 +160,13 @@ export class MobTimer {
     return this._participants;
   }
 
+  public get roles(): string[] {
+    return this._roles;
+  }
+
   public addParticipant(name: string) {
     const trimmedName = name.trim();
-    if (trimmedName.length > 0) {
-      // todo also check for duplicates, i.e.,  && !participants.includes(trimmedName))
+    if (trimmedName.length > 0) { // todo also check for duplicates, i.e.,  && !participants.includes(trimmedName))
       this._participants.push(trimmedName);
     }
   }
@@ -203,13 +188,16 @@ export class MobTimer {
     this._participants = participants;
   }
 
+  editRoles(roles: string[]) {
+    this._roles = roles;
+  }
+
   shuffleParticipants() {
     for (let i = this._participants.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [this._participants[i], this._participants[j]] = [
-        this._participants[j],
-        this._participants[i],
-      ];
+      [this._participants[i], this._participants[j]] = [this._participants[j], this._participants[i]];
     }
   }
+
+
 }
