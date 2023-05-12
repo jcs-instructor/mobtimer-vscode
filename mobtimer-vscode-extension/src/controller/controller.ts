@@ -1,21 +1,53 @@
-import { Status } from "mobtimer-api";
+import { IWebSocketWrapper, Status } from "mobtimer-api";
 import { MobTimerResponses } from "mobtimer-api";
 import { MobSocketClient } from "mobtimer-api";
 import { MobTimer } from "mobtimer-api";
 
-// todo: unhardcode port
-const url =
-  process.env.REACT_APP_WEBSOCKET_URL ||
-  `ws://localhost:${process.env.REACT_APP_WEBSOCKET_PORT || "4000"}`;
-console.log("process.env", process.env);
-console.log("url", url);
-
 export class Controller {
-  static client = MobSocketClient.openSocketSync(url);
+  static updateSummary() {
+    // todo: refactor / unhardcode emojis, etc.
+    let participantsString = "🗣️" + Controller._participants.join(", ");
+    if (Controller._participants.length > 1) {
+      participantsString = participantsString.replace(", ", ",🛞");
+    }
+    document.title = `${Controller.statusSymbolText()}${
+      Controller.secondsRemainingStringWithoutLeadingZero
+    } ${participantsString} - ${Controller.getAppTitle()}`;
+  }
+
+  static get secondsRemainingStringWithoutLeadingZero() {
+    const secondsRemainingString =
+      Controller.frontendMobTimer.secondsRemainingString;
+    return secondsRemainingString.startsWith("0")
+      ? secondsRemainingString.substring(1)
+      : secondsRemainingString;
+  }
+
+  static statusSymbolText() {
+    let symbol = "";
+    switch (Controller.frontendMobTimer.status) {
+      case Status.Running:
+        symbol = "▶️";
+        break;
+      case Status.Ready:
+      case Status.Paused:
+        symbol = "🟥";
+        break;
+      // case Status.Ready:
+      //   symbol = "⏰";
+      //   break;
+    }
+    return symbol;
+  }
 
   static frontendMobTimer: MobTimer;
+  static client: MobSocketClient;
 
-  static initializeFrontendMobTimer(timerExpireFunc: () => void) {
+  static initializeClientAndFrontendMobTimer(
+    webSocket: IWebSocketWrapper,
+    timerExpireFunc: () => void
+  ) {
+    Controller.client = new MobSocketClient(webSocket);
     Controller.frontendMobTimer = new MobTimer("front-end-timer");
     Controller.frontendMobTimer.timerExpireFunc = () => {
       timerExpireFunc();
@@ -40,8 +72,11 @@ export class Controller {
   static setSecondsRemainingString = (_timeString: string) => {}; // todo: consider alternatives to putting an underscore in the name; e.g., try abstract method/class, or interface
   static injectSetSecondsRemainingString(
     setSecondsRemainingStringFunction: (timeString: string) => void
-  ) {
-    this.setSecondsRemainingString = setSecondsRemainingStringFunction;
+  ): void {
+    this.setSecondsRemainingString = (timeString: string) => {
+      setSecondsRemainingStringFunction(timeString);
+      Controller.updateSummary();
+    };
   }
 
   // inject participants
@@ -50,6 +85,7 @@ export class Controller {
     setParticipantsFunction: (participants: string[]) => void
   ) {
     this.setParticipants = setParticipantsFunction;
+    Controller.updateSummary();
   }
 
   // other functions -----------------------
@@ -59,9 +95,12 @@ export class Controller {
     const mobStatus = mobState.status;
     const durationMinutes = mobState.durationMinutes;
     const participants = mobState.participants;
+    Controller._participants = participants;
     const secondsRemaining = mobState.secondsRemaining;
     return { mobStatus, durationMinutes, participants, secondsRemaining };
   }
+
+  static _participants: string[] = [];
 
   static getActionButtonLabel(backendStatus: Status) {
     switch (backendStatus) {
