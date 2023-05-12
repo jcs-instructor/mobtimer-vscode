@@ -1,11 +1,9 @@
+import { Command } from "./commands";
 import { MobState } from "./mobState";
 import { Status } from "./status";
 import { TimeUtils } from "./timeUtils";
 
 export class MobTimer {
-  getNextCommand() {
-    throw new Error("Method not implemented.");
-  }
   private _mobName = "";
   private _durationMinutes = 5;
   private _whenLastStartedInSeconds = 0;
@@ -17,10 +15,25 @@ export class MobTimer {
   private _timerExpireFunc = () => {};
   private _ready = true;
   private _participants: string[] = [];
-  nextCommands: any;
+  private _roles: string[] = ["🗣️ Navigator", "🛞 Driver"];
 
   constructor(mobName: string = "") {
     this._mobName = mobName;
+  }
+
+  get nextCommand() {
+    let nextCommand;
+    switch (this.status) {
+      case Status.Running:
+        nextCommand = Command.Pause;
+        break;
+      case Status.Paused:
+        nextCommand = Command.Resume;
+        break;
+      default:
+        nextCommand = Command.Start;
+    }
+    return nextCommand;
   }
 
   private setExpireTimeout() {
@@ -71,6 +84,7 @@ export class MobTimer {
 
   pause() {
     this._running = false;
+    this._ready = false;
     if (this._timer) {
       clearTimeout(this._timer);
     }
@@ -85,6 +99,7 @@ export class MobTimer {
       status: this.status,
       durationMinutes: this.durationMinutes,
       participants: this._participants,
+      roles: this._roles,
       secondsRemaining: this.secondsRemaining,
     } as MobState;
   }
@@ -166,6 +181,10 @@ export class MobTimer {
     return this._participants;
   }
 
+  public get roles(): string[] {
+    return this._roles;
+  }
+
   public addParticipant(name: string) {
     const trimmedName = name.trim();
     if (trimmedName.length > 0) {
@@ -189,6 +208,10 @@ export class MobTimer {
 
   editParticipants(participants: string[]) {
     this._participants = participants;
+  }
+
+  editRoles(roles: string[]) {
+    this._roles = roles;
   }
 
   shuffleParticipants() {

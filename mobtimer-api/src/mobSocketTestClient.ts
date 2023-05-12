@@ -14,7 +14,6 @@ class MobSocketTestClient extends MobSocketClient {
     super(webSocket);
     this._socket = webSocket;
     this._socket.onmessageReceived = (message) => {
-      console.log("message:::::::::::::::", message);
       this.trackMessage(message);
     };
   }
@@ -23,6 +22,7 @@ class MobSocketTestClient extends MobSocketClient {
     const responseObject = this.convertToMobTimerResponse(
       message.data as string
     );
+    console.log("responseObject", responseObject);
     switch (responseObject.actionInfo.action) {
       case Action.Echo: {
         this._echoReceived = true;
@@ -44,12 +44,7 @@ class MobSocketTestClient extends MobSocketClient {
     return JSON.parse(response) as MobTimerResponse;
   }
 
-  static openSocketSync(webSocket: IWebSocketWrapper): MobSocketTestClient {
-    const mobSocketTestClient = new MobSocketTestClient(webSocket);
-    return mobSocketTestClient;
-  }
-
-  static async openSocket(
+  static async waitForOpenSocket(
     webSocket: IWebSocketWrapper
   ): Promise<MobSocketTestClient> {
     const mobSocketTestClient = new MobSocketTestClient(webSocket);
@@ -89,6 +84,7 @@ class MobSocketTestClient extends MobSocketClient {
   }
 
   public get lastSuccessfulMobState(): MobState {
+    console.log("lastSuccessfulResponse", this.lastSuccessfulResponse.mobState);
     const lastSuccessfulResponse = this.lastSuccessfulResponse;
     return lastSuccessfulResponse.mobState;
   }

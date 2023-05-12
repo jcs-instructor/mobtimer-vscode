@@ -1,21 +1,24 @@
 {
-  "name": "mobtimer-vscode",
+  "name": "mobtimer-vscodeversion20",
   "displayName": "Mobtimer for VSCode",
+  "repository": "mobtimer-vscode",
   "description": "",
-  "version": "0.0.1",
+  "version": "0.0.20",
   "engines": {
     "vscode": "^1.77.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
-  "main": "./out/extension.js",
+  "activationEvents": [
+    "mobtimer.helloWorldversion20"
+  ],
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "mobtimer.helloWorld",
-        "title": "Hello World"
+        "command": "mobtimer.helloWorldversion20",
+        "title": "Hello World version20"
       }
     ]
   },
@@ -25,7 +28,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./dist/test/runTest.js"
   },
   "devDependencies": {
     "@types/glob": "^8.1.0",
@@ -42,7 +45,6 @@
   },
   "dependencies": {
     "@types/ws": "^8.5.4",
-    "mobtimer-api": "^1.0.15",
     "websocket": "^1.0.34",
     "ws": "^8.13.0"
   }
