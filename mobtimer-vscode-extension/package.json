@@ -1,5 +1,5 @@
 {
-  "name": "mobtimer-vscodeversion23",
+  "name": "mobtimer-vscodeversion24",
   "displayName": "Mobtimer for VSCode",
   "repository": "mobtimer-vscode",
   "description": "",
@@ -11,14 +11,14 @@
     "Other"
   ],
   "activationEvents": [
-    "mobtimer.helloWorldversion23"
+    "mobtimer.helloWorldversion24"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "mobtimer.helloWorldversion23",
-        "title": "Hello World version23"
+        "command": "mobtimer.helloWorldversion24",
+        "title": "Hello World version24"
       }
     ]
   },

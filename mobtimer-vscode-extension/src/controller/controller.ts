@@ -159,17 +159,14 @@ export class Controller {
     switch (frontendMobtimer.status) {
       case Status.Running: {
         client.pause();
-        frontendMobtimer.pause();
         break;
       }
       case Status.Paused: {
         client.start();
-        frontendMobtimer.start();
         break;
       }
       case Status.Ready: {
         client.start();
-        frontendMobtimer.start();
         break;
       }
     }

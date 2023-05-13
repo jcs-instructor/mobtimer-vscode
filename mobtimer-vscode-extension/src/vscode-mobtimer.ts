@@ -1,5 +1,8 @@
 import { StatusBarAlignment, StatusBarItem, window } from "vscode";
 import { Controller } from "./controller/controller";
+import { TOGGLE_TIMER_COMMAND } from "./constants";
+import { commands } from "vscode";
+
 import {
   Command,
   IWebSocketWrapper,
@@ -20,6 +23,7 @@ export class VscodeMobTimer {
     this._playButton = window.createStatusBarItem(StatusBarAlignment.Left);
     this._playButton.text = getPlayButtonLabel();
     this._playButton.show();
+
     const url =
       process.env.REACT_APP_WEBSOCKET_URL ||
       `ws://localhost:${process.env.REACT_APP_WEBSOCKET_PORT || "4000"}`;
@@ -41,15 +45,28 @@ export class VscodeMobTimer {
       this._playButton.text = getPlayButtonLabel();
       this._playButton.show();
     };
+    commands.registerCommand(TOGGLE_TIMER_COMMAND, () => {
+      if (Controller.frontendMobTimer.nextCommand === Command.Start) {
+        Controller.frontendMobTimer.start();
+        client.start();
+      } else if (Controller.frontendMobTimer.nextCommand === Command.Pause) {
+        Controller.frontendMobTimer.pause();
+        client.pause();
+      } else if (Controller.frontendMobTimer.nextCommand === Command.Resume) {
+        Controller.frontendMobTimer.start();
+        client.start();
+      }
+    });
+    this._playButton.command = TOGGLE_TIMER_COMMAND;
   }
 
   public update() {
     // Every second, update the status bar with the current time with seconds
     console.log("update");
     setInterval(() => {
-      console.log("Clicking version23");
+      console.log("Clicking version24");
       this._seconds++;
-      const text = `[ $(clock) ${this._seconds} version23: ${Controller.frontendMobTimer.secondsRemainingString} ]`;
+      const text = `[ $(clock) ${this._seconds} version24: ${Controller.frontendMobTimer.secondsRemainingString} ]`;
       this._statusBarItem.text = text;
     }, 1000); // 1000 ms = 1 second
     this._statusBarItem.show();
@@ -61,34 +78,18 @@ export class VscodeMobTimer {
 }
 
 function controllerOnMessage(message: { data: string }) {
-  console.log("message:::::::::::::::", message);
   const response = JSON.parse(
     message.data
   ) as MobTimerResponses.SuccessfulResponse;
 
   // todo: handle if response is not successful
   // Read response data
-  const { mobStatus, durationMinutes, participants, secondsRemaining } =
+  const { mobStatus, secondsRemaining } =
     Controller.translateResponseData(response);
-
-  // Derive mob label from response status
-  const label = Controller.getActionButtonLabel(mobStatus); // todo: make enum
 
   // modify frontend mob timer
   Controller.changeStatus(Controller.frontendMobTimer, mobStatus);
   Controller.frontendMobTimer.setSecondsRemaining(secondsRemaining);
-  console.log("frontend mob timer");
-
-  if (response.mobState.status !== Controller.frontendMobTimer.status) {
-    console.log(
-      "PROBLEM - FRONT AND BACK END STATUS MISMATCH!!!!!!!!!! --- " +
-        "Frontend Status: " +
-        Controller.frontendMobTimer.status +
-        ", " +
-        "Backend Status:" +
-        response.mobState.status
-    );
-  }
 }
 
 // todo: in progress
