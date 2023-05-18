@@ -1,4 +1,4 @@
-import { IWebSocketWrapper, Status } from "mobtimer-api";
+import { Status } from "mobtimer-api";
 import { MobTimerResponses } from "mobtimer-api";
 import { MobSocketClient } from "mobtimer-api";
 import { MobTimer } from "mobtimer-api";
@@ -71,7 +71,7 @@ export class Controller {
     return symbol;
   }
 
-  static frontendMobTimer: MobTimer = new MobTimer("temp-not-to-be-used");
+  static frontendMobTimer: MobTimer = new MobTimer("");
   static client: MobSocketClient;
 
   static getAppTitle() {
@@ -95,6 +95,7 @@ export class Controller {
   ): void {
     this.setSecondsRemainingString = (timeString: string) => {
       setSecondsRemainingStringFunction(timeString);
+      // Time ticking is tracked on the front end, so we need to update the summary here
       Controller.updateSummary();
     };
   }
@@ -105,14 +106,12 @@ export class Controller {
     setParticipantsFunction: (participants: string[]) => void
   ) {
     this.setParticipants = setParticipantsFunction;
-    Controller.updateSummary();
   }
 
   // inject roles
   static setRoles = (_roles: string[]) => {}; // todo: consider alternatives to putting an underscore in the name; e.g., try abstract method/class, or interface
   static injectSetRoles(setRolesFunction: (roles: string[]) => void) {
     this.setRoles = setRolesFunction;
-    Controller.updateSummary();
   }
 
   // other functions -----------------------
@@ -159,14 +158,17 @@ export class Controller {
     switch (frontendMobtimer.status) {
       case Status.Running: {
         client.pause();
+        frontendMobtimer.pause();
         break;
       }
       case Status.Paused: {
         client.start();
+        frontendMobtimer.start();
         break;
       }
       case Status.Ready: {
         client.start();
+        frontendMobtimer.start();
         break;
       }
     }
