@@ -9,8 +9,12 @@ From the Terminal:
   cd [this repository name here]
   ```
 
-## Start and Debug
+## Adding a New Feature
+The entry point for all changes is extensions.js
 
+## Debug (most common way to develop)
+
+If you are working with this as a submodule part of the mobtimer project
 To start and debug:
 
 - In the terminal, enter 
