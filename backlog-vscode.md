@@ -14,22 +14,26 @@ Goal: Use mrozzbarry with minimal edits
 ## Must Haves for Ethan & Joel
 
 - [x] Show some text in statusbar
-- [ ] For debugging, run watch of compile mobtimer-api 
-- [ ] Currently modifying frontend, so see that project first
-  - [ ] WIP: Use mobtimer controller (code reuse)  
-- [ ] See if can run Hello World when extension loads instead of having to run it as a task
-- [ ] WIP: CONTRIBUTING.md - Review [here](./CONTRIBUTING.md)
-- [ ] Join (ok to hardcode)
-- [ ] Statusbar
-    - [ ] Time remaining
-    - [ ] Start/Pause
+- [x] Join (ok to hardcode)
+- [x] Statusbar
+    - [x] Time remaining
+    - [x] Start/Pause
             const resetTimerLabel = '$(clock) Reset timer';
             const cancelTimerLabel = '$(close) Cancel timer';
+
+## Should Haves for Ethan and Joel
+- [ ] See if can run Hello World when extension loads instead of having to run it as a task
+- [ ] WIP: CONTRIBUTING.md - Review [here](./CONTRIBUTING.md)
 - [ ] Rename hello world everywhere
 - [ ] Refactor/Cleanup: Remove code that was added just for mrozbarry (currently commented out - in mobSocketServer.ts in 2 places: _initialize, etc.)
 
 ## Must Haves for Other People
+- [ ] Specify Mob Names
+- [ ] Instructions for running in debug mode
+- [ ] Instructions for installing
+- [ ] Use mobtimer-api directly, create combined github repo
 
+## Should Haves for other people
 - [ ] Join, and see all default fields
 - [ ] (Add who's Navigator next to time on bottom)
 - [ ] Duration
